@@ -23,6 +23,7 @@ yapf = "*"
 black = "*"
 autopep8 = "*"
 awscli = "*"
+pre-commit = "*"
 
 [pipenv]
 allow_prereleases = true

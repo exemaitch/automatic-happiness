@@ -32,6 +32,7 @@ class CfnPipeline(core.Stack):
             oauth_token=core.SecretValue.secrets_manager("github_oauth_exemaitch"),
             output=source_output,
             owner="exemaitch",
+            branch="test_build",
         )
         gh_stage_props = aws_codepipeline.StageProps(
             stage_name="Source", actions=[source_action]

@@ -37,7 +37,7 @@ class CfnPipeline(core.Stack):
             "build",
             description="Runs cdk synth to output Cloudformation template",
             environment=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2,
-            buildspec=aws_codebuild.BuildSpec.from_source_filename("./buildspecs/s3_to_cdk.yml")
+            build_  spec=aws_codebuild.BuildSpec.from_source_filename("./buildspecs/s3_to_cdk.yml")
         )
 
         cfn_pipeline = aws_codepipeline.Pipeline(

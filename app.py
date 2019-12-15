@@ -5,14 +5,14 @@ from aws_cdk import (
     aws_codepipeline,
     aws_codepipeline_actions,
     aws_s3,
-    aws_secretsmanager,
     core,
 )
 
 
 class CfnPipeline(core.Stack):
-    """     Creates a full pipeline with S3 storage for the build artifacts.  This code pipeline is intended to
-            synth and deploy Cloud formation templates with a review and a "destination" stage.  The destination
+    """     Creates a full pipeline with S3 storage for the build artifacts.
+            This code pipeline is intended to synth and deploy Cloud formation
+            templates with a review and a "destination" stage.  The destination
             stage can either be your staging environment or your prod environment.
 
     Arguments:

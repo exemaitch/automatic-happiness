@@ -25,7 +25,8 @@ phases:
     commands:
       - npm install -g cdk
       - pip install awscli
-      - pip install -r requirements.txt
+      - pip install pipenv
+      - pipenv install
   pre_build:
     commands:
       - pwd

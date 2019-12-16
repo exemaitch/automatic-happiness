@@ -33,6 +33,7 @@ class CfnPipeline(core.Stack):
             output=source_output,
             owner="exemaitch",
             branch="test_build",
+            trigger=aws_codepipeline_actions.GitHubTrigger.POLL,
         )
         gh_stage_props = aws_codepipeline.StageProps(
             stage_name="Source", actions=[source_action]

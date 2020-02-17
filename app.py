@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_codebuild,
     aws_codepipeline,
     aws_codepipeline_actions,
+    aws_iam,
     aws_s3,
     core,
 )
@@ -21,19 +22,36 @@ class CfnPipeline(core.Stack):
     """
 
     def __init__(self, scope: core.Construct, id: str, env, **kwargs) -> None:
+        bucket_key = "foobar"
         super().__init__(scope, id, *kwargs)
+        gh_source_bucket = aws_s3.Bucket(
+            self, "gh_source_bucket"
+        )  # destination for source from GH
+        # Policies
+        pipeline_policies = [
+            aws_iam.PolicyDocument(
+                statements=[
+                    aws_iam.PolicyStatement(
+                        actions=["s3:*"], resources=[gh_source_bucket.bucket_arn]
+                    )
+                ]
+            )
+        ]
+        pipeline_role = aws_iam.Role(
+            self,
+            "pipeline_role",
+            assumed_by=aws_iam.ServicePrincipal("codepipeline.amazonaws.com"),
+            inline_policies=pipeline_policies,
+        )
         bucket = aws_s3.Bucket(self, "cfn_pipeline_build_artifacts")
 
         # Create a source action
         source_output = aws_codepipeline.Artifact()
-        source_action = aws_codepipeline_actions.GitHubSourceAction(
+        source_action = aws_codepipeline_actions.S3SourceAction(
             action_name="Source",
-            repo="automatic-happiness",
-            oauth_token=core.SecretValue.secrets_manager("github_oauth_exemaitch"),
+            bucket=gh_source_bucket,
+            bucket_key=f"{bucket_key}",
             output=source_output,
-            owner="exemaitch",
-            branch="test_build",
-            trigger=aws_codepipeline_actions.GitHubTrigger.POLL,
         )
         gh_stage_props = aws_codepipeline.StageProps(
             stage_name="Source", actions=[source_action]

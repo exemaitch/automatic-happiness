@@ -24,6 +24,7 @@ black = "*"
 autopep8 = "*"
 awscli = "*"
 pre-commit = "*"
+"flake8" = "*"
 
 [pipenv]
 allow_prereleases = true

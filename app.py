@@ -61,6 +61,7 @@ class CfnPipeline(core.Stack):
                             action_name="FoobarBuild",
                             project=build,
                             input=source_output,
+                            outputs=[],
                         )
                     ],
                 ),

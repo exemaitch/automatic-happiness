@@ -1,0 +1,40 @@
+version: 2
+
+defaults: &defaults
+  docker:
+  - image: circleci/python:3.7
+
+  working_directory:  ~/automatic-happiness
+
+restore_build_cache: &restore_build_cache
+  key: deps-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+
+save_build_cache: &save_build_cache
+  paths:
+  - ".venv"
+  -  "/usr/local/bin"
+  - "/usr/local/lib/python3.7/site-packages"
+  key: deps-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+
+install_deps: &install_deps
+  name:  Install deps for build
+  command: |
+    sudo pip install pipenv
+    pipenv sync --dev
+
+lint: &lint
+  name:  Lint
+  command:
+    pipenv run flake8
+
+jobs:
+  build:
+    <<: *defaults
+
+    steps:
+      - checkout
+      - restore_cache: *restore_build_cache
+      - run: *install_deps
+      - save_cache: *save_build_cache
+      - run: *lint
+

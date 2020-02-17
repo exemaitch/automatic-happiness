@@ -1,0 +1,30 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+aws-cdk-core = "*"
+aws-cdk-aws-s3 = "*"
+aws-cdk-aws-codepipeline = "*"
+aws-cdk-aws-codepipeline-actions = "*"
+aws-cdk-aws-secretsmanager = "*"
+aws-cdk-aws-codebuild = "*"
+aws-cdk-aws-codedeploy = "*"
+boto3 = "*"
+
+[requires]
+python_version = "3.7"
+
+[dev-packages]
+pytest = "*"
+pylint = "*"
+yapf = "*"
+black = "*"
+autopep8 = "*"
+awscli = "*"
+pre-commit = "*"
+"flake8" = "*"
+
+[pipenv]
+allow_prereleases = true

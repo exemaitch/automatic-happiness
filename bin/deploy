@@ -1,0 +1,20 @@
+# We assume this is run from the top level directory
+
+#!/bin/bash
+
+set -e
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    echo "usage scripts/run [options]..."
+    echo "Options and arguments:"
+    echo "--help (-h)                           : usage information"
+    echo "[environment]                         : [dev|stage|prod]"
+    exit 1;
+fi
+
+export PYTHONPATH=$PWD
+export CDK_DEFAULT_REGION=us-west-2
+export CDK_DEFAULT_ACCOUNT=157617231930
+
+
+pipenv run cdk --app="python app.py" --profile personal deploy

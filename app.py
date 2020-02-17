@@ -22,10 +22,13 @@ class CfnPipeline(core.Stack):
     """
 
     def __init__(self, scope: core.Construct, id: str, env, **kwargs) -> None:
-        bucket_key = "foobar"
+        bucket_key = "foobar.zip"
         super().__init__(scope, id, *kwargs)
         gh_source_bucket = aws_s3.Bucket(
-            self, "gh_source_bucket"
+            self,
+            "gh_source_bucket",
+            encryption=aws_s3.BucketEncryption.S3_MANAGED,
+            versioned=True,
         )  # destination for source from GH
         # Policies
         pipeline_policies = [
@@ -62,7 +65,7 @@ class CfnPipeline(core.Stack):
             description="Runs cdk synth to output Cloudformation template",
             environment=aws_codebuild.LinuxBuildImage.AMAZON_LINUX_2,
             build_spec=aws_codebuild.BuildSpec.from_source_filename(
-                "./buildspecs/s3_to_cdk.yml"
+                "./foobar/buildspecs/s3_to_cdk.yml"
             ),
         )
 
